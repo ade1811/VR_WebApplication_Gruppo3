@@ -48,7 +48,7 @@ def send_email(oggetto, body, to_email, path = " "):
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
     smtp_user = "adasd.99wdw@gmail.com"
-    smtp_password = "secn atnk sbym uzwb"   
+    smtp_password = ""   
 
     # Componi il messaggio
     msg = MIMEMultipart()
