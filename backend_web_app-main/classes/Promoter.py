@@ -81,8 +81,18 @@ class Promoter():
         self.cursor.execute(query, (self.id,))
         grafico = self.cursor.fetchall()
 
+        query = """SELECT e.titolo, SUM(t.prezzo) AS guadagno_evento 
+                    FROM evento e 
+                    JOIN pacchetto p ON e.eventoID = p.eventoID 
+                    JOIN ticket t ON p.pacchettoID = t.pacchettoID 
+                    WHERE e.promoterID = %s 
+                    AND MONTH(t.data) = %s AND DAY(t.data) < %s
+                    group by e.titolo"""
+        self.cursor.execute(query, (self.id, datetime.now().month, datetime.now().day))
+        grafico2 = self.cursor.fetchall()
         # Preparazione dati per i grafici
-        chart_series = {"name": "Andamento eventi", "data": [float(guadagno[1]) for guadagno in grafico]}
+        chart_series = {"name1": "Andamento eventi", "data1": [float(guadagno[1]) for guadagno in grafico],
+                        "name2": "Settimana", "data2": [float(guadagno[1]) for guadagno in grafico2]}
 
         data = {
             "data": {
@@ -97,7 +107,7 @@ class Promoter():
                     "percentage": "+73% dal penultimo evento"
                 },
                 "num": {
-                    "title": "Num Eventi",
+                    "title": "Numero Eventi",
                     "amount": f"{num_amount}",
                 },
                 "total": {

@@ -139,15 +139,23 @@ class User:
         try:
             self._ensure_connection()
             
-            if isPromoter:
+            if isPromoter == "True":
                 self.cursor.execute(
                     "SELECT COUNT(eventoID) FROM evento WHERE promoterID = %s",
                     (id,)
                 )
                 num_events = self.cursor.fetchone()[0]
-                return {"id": id, "numEventi": num_events}
-                
-            return {"id": id}
+                userType = "promoter"
+            else:
+                self.cursor.execute(
+                    "SELECT COUNT(*) FROM user natural join ticket where userID = %s",
+                    (id,)
+                )
+                num_events = self.cursor.fetchone()[0]
+                userType = "user"
+
+            return {"id": id, "numEventi" : num_events, "userType": userType, 
+                    "anagrafica": self.__getUser(userType, id)}
             
         except Exception as e:
             return {"error": f"Errore nel recupero del profilo: {str(e)}"}

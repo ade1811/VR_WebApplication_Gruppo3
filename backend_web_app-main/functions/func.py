@@ -1,3 +1,8 @@
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 import mysql.connector as mc
 from datetime import datetime, timedelta, date, time
 
@@ -48,7 +53,7 @@ def send_email(oggetto, body, to_email, path = " "):
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
     smtp_user = "adasd.99wdw@gmail.com"
-    smtp_password = ""   
+    smtp_password = os.getenv("SMTP_PASSWORD")
 
     # Componi il messaggio
     msg = MIMEMultipart()
@@ -180,9 +185,8 @@ def genera_matricola(lunghezza=8):
     return matricola
 
 import stripe
-from dotenv import load_dotenv
 def pagamenti(data):
-    stripe.api_key = "sk_test_51Qf1O4RoyX8vEHoY3NqI7PBxgEAdqF7kMeDzdxF3GaNDZqBaoIZwXCgp2nnv7AuVBwoEtDJ6SVeMJbuMBSoiO6L9009wnKKUDu"
+    stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
     try:
         line_items = []
         for pacchetto in data:
