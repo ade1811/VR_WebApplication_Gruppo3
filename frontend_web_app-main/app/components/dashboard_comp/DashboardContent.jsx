@@ -27,8 +27,9 @@ const chartOptions = {
 export default function DashboardContent() {
   const [data, setData] = useState([]); // Stato inizializzato con array vuoto
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [chartSeries, setChartSeries] = useState([]);
+  const [chartSeries1, setChartSeries1] = useState([]);
+  const [chartSeries2, setChartSeries2] = useState([]);
+
 
   const api = process.env.NEXT_PUBLIC_API;
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function DashboardContent() {
       .then((response) => {
         if (response.status !== 200) {
           // Se l'API risponde con errore di autenticazione
-          router.push("/login"); // Reindirizza alla pagina di login
+          router.push("/promoter/login"); // Reindirizza alla pagina di login
           return null;
         }
         if (!response.ok) {
@@ -56,18 +57,24 @@ export default function DashboardContent() {
       .then((data) => {
         if (data && data.data) {
           setData(data.data); // Imposta i dati solo se esistono
-          setChartSeries([
+          setChartSeries1([
             {
-              name: data.grafici.name, // Nome del grafico
-              data: data.grafici.data, // Array di dati
+              name: data.grafici.name1, // Nome del grafico
+              data: data.grafici.data1, // Array di dati
             },
           ]);
+          setChartSeries2([
+            {
+              name: data.grafici.name2, // Nome del grafico
+              data: data.grafici.data2, // Array di dati
+            },
+          ]);
+
+          console.log(data.data)
         }
-        setLoading(false);
       })
       .catch((error) => {
         router.push("/promoter/login");
-        setLoading(false);
       });
   }, [api, router]);
 
@@ -88,16 +95,16 @@ export default function DashboardContent() {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 justify-center">
         <ChartCard
-          title="Total Revenue"
+          title="Andamento Eventi"
           chartOptions={chartOptions}
-          chartSeries={chartSeries}
+          chartSeries={chartSeries1}
           chartType="line"
           height={350}
         />
         <ChartCard
-          title="Profit This Week"
+          title="Profitto settimanale"
           chartOptions={chartOptions}
-          chartSeries={chartSeries}
+          chartSeries={chartSeries2}
           chartType="area"
           height={350}
         />

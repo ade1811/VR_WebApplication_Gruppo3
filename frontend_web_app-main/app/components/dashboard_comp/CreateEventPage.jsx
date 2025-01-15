@@ -19,7 +19,6 @@ export default function CreateEventPage() {
     isEcologic: 0,
   });
   const api = process.env.NEXT_PUBLIC_API;
-  const [data, setData] = useState(0);
 
   // Initialize Google Places Autocomplete
   useEffect(() => {
@@ -159,7 +158,7 @@ export default function CreateEventPage() {
                         isDragActive ? 'border-blue-500' : 'border-gray-600'
                       } flex items-center justify-center`}
                     >
-                      <input {...getInputProps()} />
+                      <input {...getInputProps()} required/>
                       {image ? (
                         <img
                           src={image.preview}

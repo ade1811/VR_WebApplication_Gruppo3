@@ -87,26 +87,18 @@ export default function DataMap({ region }) {
             </div>
 
             <div className="bg-gray-700 p-6 rounded-lg hover:bg-gray-600 transition-colors">
-                <h2 className="text-2xl font-semibold text-white mb-4">Top 3 generi</h2>
-                <ol className="list-decimal list-inside text-blue-300 space-y-2">
-                    <li className="font-bold">{regionData?.generi?.[0] || 'Nessun genere'}</li>
-                    <li className="font-bold text-blue-400">{regionData?.generi?.[1] || 'Nessun genere'}</li>
-                    <li className="font-bold text-blue-500">{regionData?.generi?.[2] || 'Nessun genere'}</li>
-                </ol>
+              <h2 className="text-2xl font-semibold text-white mb-4">Top 3 generi</h2>
+              <ol className="list-decimal list-inside text-blue-300 space-y-2">
+                  <li className="font-bold">{regionData?.generi?.[0] || 'Nessun genere'}</li>
+                  <li className="font-bold text-blue-400">{regionData?.generi?.[1] || 'Nessun genere'}</li>
+                  <li className="font-bold text-blue-500">{regionData?.generi?.[2] || 'Nessun genere'}</li>
+              </ol>
             </div>
 
-
             <div className="bg-gray-700 p-6 rounded-lg hover:bg-gray-600 transition-colors">
-              <h2 className="text-2xl font-semibold text-white mb-4">Statistiche</h2>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Eventi Totali</span>
-                  <span className="text-blue-400 font-bold">{regionData.regione || 0}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Partecipanti</span>
-                  <span className="text-purple-400 font-bold">{regionData.partecipanti || 0}</span>
-                </div>
+              <h2 className="text-2xl font-semibold text-white mb-4">Media Prezzo</h2>
+              <div className="text-blue-300 space-y-2">
+                <p className="font-bold text-blue-400">{regionData?.media_prezzo + "€" || 'Nessun dato'}</p>
               </div>
             </div>
           </div>

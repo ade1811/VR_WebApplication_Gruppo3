@@ -1,7 +1,7 @@
 'use client'
 
-import React, { use, useState, useEffect } from "react";
-import {UserIcon, BellIcon } from '@heroicons/react/solid';
+import React, { useState, useEffect } from "react";
+import {UserIcon } from '@heroicons/react/solid';
 import EventCard from "../components/eventCard";
 import Link from "next/link";
 
@@ -75,6 +75,8 @@ export default function Home() {
     "Tecnologia", "Arte", "Sport", "Benessere", "Cucina", 
     "Cultura", "Festa", "Formazione", "Musica", "Teatro"
   ];
+  
+  
 
   return (
     <div className="min-h-full bg-bg1 bg-cover bg-center bg-fixed relative">
@@ -84,8 +86,9 @@ export default function Home() {
         <div className="w-full flex items-center justify-between sm:justify-start">
           <Link href="/" className="text-white text-2xl font-bold">FastEvent</Link>
           <div className="flex space-x-4 sm:ml-0">
-            <UserIcon className="h-6 w-6 text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer ml-5" />
-            <BellIcon className="h-6 w-6 text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer" />
+            <Link href={"/profile"} className="text-white hover:text-blue-500 transition-colors duration-200">
+              <UserIcon className="h-6 w-6 text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer ml-5" />
+            </Link>
           </div>
         </div>
         <div className="w-full sm:w-auto flex justify-center mt-2 sm:mt-0">
@@ -100,14 +103,35 @@ export default function Home() {
       </header>
       
       <main className="relative z-10 container mx-auto px-4 py-8 mt-16">
+        <>
+          <h2 className="text-2xl font-bold mb-6 text-white">Suggeriti per te</h2>
+          <div className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide scroll-smooth">
+            {events
+              .filter(event => racommandation.includes(event.eventoID))
+              .map((event, key) => (
+                <Link 
+                  href={"/event/" + event.eventoID} 
+                  key={key}
+                  className="flex-none w-80"
+                >
+                  <EventCard
+                    key={key}
+                    image={event.copertina}
+                    title={event.titolo}
+                    desc={event.descrizione}
+                  />
+                </Link>
+              ))}
+          </div>
+        </>
         {genres.map((genre) => {
           const genreEvents = fEvents.filter(event => event.genere === genre);
           
           return (
             <div key={genre} className="mb-12">
+
               <h2 className="text-2xl font-bold mb-6 text-white">{genre}</h2>
-              
-              
+        
               {genreEvents.length > 0 ? (
                 <div className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide scroll-smooth">
                   {genreEvents.map((event, key) => (

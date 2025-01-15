@@ -1,7 +1,6 @@
 'use client';
 
 import { ArrowLeftIcon } from "@heroicons/react/solid";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 

@@ -4,6 +4,7 @@ import { ArrowLeftIcon, PencilIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from 'react';
 import PrezzoView from "@/app/components/PrezzoView";
+import dayjs from "dayjs";
 
 export default function EventDetail({ params }) {
   const router = useRouter();
@@ -223,7 +224,7 @@ useEffect(() => {
       <PrezzoView pacchetti={pacchetti} id={par.eventoId} />
 
       {/* MAPPA */}
-      <div>
+      <div className="mt-12">
         <h3 className="text-2xl font-semibold mb-4">Posizione dell'Evento</h3>
         <div className="w-full h-96 rounded-lg overflow-hidden shadow-lg">
           <iframe

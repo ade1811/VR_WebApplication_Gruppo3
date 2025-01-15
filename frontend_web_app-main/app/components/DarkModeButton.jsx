@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Switch = () => {
+
+export default function Switch(){
   return (
     <StyledWrapper>
       <label className="switch">
@@ -339,4 +340,3 @@ const StyledWrapper = styled.div`
     }
   }`;
 
-export default Switch;

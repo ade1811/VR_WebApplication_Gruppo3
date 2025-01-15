@@ -10,6 +10,7 @@ export default function Profile() {
     const [data, setData] = useState([]); // Stato inizializzato con array vuoto
     const [numEventi, setNumEventi] = useState(0); // Stato per il numero di eventi
     const img  = localStorage.getItem("immagine");
+    const [userType, setUserType] = useState(""); // Stato per il tipo di utente
 
     const api = process.env.NEXT_PUBLIC_API;
 
@@ -33,14 +34,18 @@ export default function Profile() {
           .then((data) => {
             if (data) {
               setData(data.data); // Imposta i dati nel primo stato
+              const anagrafica = data.anagrafica.nome + " " + data.anagrafica.cognome;
+              localStorage.removeItem("anagrafica");
+              localStorage.setItem("anagrafica", anagrafica);
               console.log(data);
               setNumEventi(data.numEventi || 0); // Imposta il numero di eventi
+              setUserType(data.userType); // Imposta il tipo di utente
             }
           })
           .catch((error) => {
             console.error("Errore nel caricamento dei dati:", error);
           });
-    }, []); // Array di dipendenze corretto
+    }, [api]); // Array di dipendenze corretto
 
     return (
         <div className="min-h-screen bg-bg1 bg-cover text-white flex flex-col items-center relative">
@@ -85,23 +90,15 @@ export default function Profile() {
                     <h1 className="text-2xl font-bold flex flex-row">{localStorage.getItem("anagrafica")} 
                         <Link href="/ModifyProfile"><PencilIcon className='w-5 h-5 ml-2 mt-1'/></Link>
                     </h1>
-                    <p className="text-blue-400">UI/UX Designer</p>
                 </div>
 
                 {/* Statistiche */}
                 <div className="flex space-x-8 mt-5 text-center">
                     <div className="text-center">
                         <span className="text-xl font-semibold">{numEventi}</span>
-                        <p className="text-gray-400">Eventi</p>
+                        <p className="text-gray-400">{userType === "promoter"? "Eventi": "Biglietti Acquistati"}</p>
                     </div>
-                    <div className="text-center">
-                        <span className="text-xl font-semibold">129K</span>
-                        <p className="text-gray-400">Followers</p>
-                    </div>
-                    <div className="text-center">
-                        <span className="text-xl font-semibold">2K</span>
-                        <p className="text-gray-400">Following</p>
-                    </div>
+                    
                 </div>
             </div>
         </div>

@@ -1,25 +1,29 @@
 import React from "react";
 import { EyeIcon, PencilIcon, EyeOffIcon, TicketIcon, UserGroupIcon  } from "@heroicons/react/solid";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function EventCardPromoter({ title, date, eventID, copertina, isVisible }) {
   const api = process.env.NEXT_PUBLIC_API;
   const router = useRouter();
+  const [visibility, setVisibility] = useState(isVisible);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("tokenID");
-    const response = await fetch(api + "/changeVisibility/" + eventID, {
+    await fetch(api + "/changeVisibility/" + eventID, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+    }).then(() =>{
+        alert("Visibilità dell'evento cambiata con successo");
+        setVisibility(!visibility);
+    }).catch(error => {
+      console.error("Errore durante il fetch:", error);
     });
-
-    window.location.reload();
   };
-
 
   return (
     <div>
@@ -41,7 +45,7 @@ export default function EventCardPromoter({ title, date, eventID, copertina, isV
 
         {/* Pulsanti di azione */}
         <button id="change visibility" onClick={handleSubmit}>
-          {isVisible ? (
+          {visibility ? (
             <EyeIcon className="w-4 h-4 text-gray-400 hover:text-gray-100 absolute bottom-4 right-4" />
           ) : (
             <EyeOffIcon className="w-4 h-4 text-gray-400 hover:text-gray-100 absolute bottom-4 right-4" />

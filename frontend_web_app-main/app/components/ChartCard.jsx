@@ -9,7 +9,7 @@ export default function ChartCard({ title, chartOptions, chartSeries, chartType 
           options={chartOptions}
           series={chartSeries}
           type={chartType}
-          height={height}
+          height={height} 
         />
       </div>
     </div>

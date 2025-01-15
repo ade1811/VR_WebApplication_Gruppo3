@@ -1,7 +1,7 @@
 import React from "react";
 
 // Component for individual event card
-export default function EventCard({ image, title, desc })
+export default function EventCard({ image, title })
 {
   const api = process.env.NEXT_PUBLIC_API;
 

@@ -23,7 +23,6 @@ export default function PacchettoVisualizzare({ pacchetti }) {
         }
       });
       setQuantities(initialQuantities);
-      console.log(localPacchetti);
     }
   }, [pacchetti]);
 
@@ -63,11 +62,12 @@ export default function PacchettoVisualizzare({ pacchetti }) {
 
   const api = process.env.NEXT_PUBLIC_API;
   const token = localStorage.getItem('tokenID');
+
   const handlePurchase = async () => {
     const payload = getSelectedPackages();
     const stripe = await stripePromise;
     // Ready for API call
-    if (pacchetti.length > 0){
+    if (payload.length > 0){
       fetch(api + "/createTicket", {
         method: 'POST',
         headers: {

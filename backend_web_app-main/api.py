@@ -322,11 +322,12 @@ def modifyProfile():
 @app.route("/api/regione/<nomeRegione>", methods=["GET"])
 def regione(nomeRegione):
     prom =  Promoter(db_config, 1)
-    n, p, gen = prom.regione(nomeRegione)
+    n, p, gen, mp = prom.regione(nomeRegione)
     popolazione = get_popolazione(nomeRegione)
     tasso_partecipazione = '{:.2e}'.format((p / popolazione) * 100)
+    mp = '{:.2f}'.format(mp)
     return {"regione": n, "partecipanti": p, "popolazione": popolazione, 
-            "tasso": tasso_partecipazione, "generi": gen}, 200  
+            "tasso": tasso_partecipazione, "generi": gen, "media_prezzo": mp}, 200  
 
 @app.route("/api/changeVisibility/<eventID>", methods=["POST"])
 @jwt_required()     
@@ -357,13 +358,20 @@ def createTicket():
         identity = get_jwt_identity()
         idPromoter, isPromoter = identity.split('_')
         data = request.json
-        id = pagamenti(data)
+        
+        # Wait for payment confirmation
+        payment_result = pagamenti(data)
+        if not payment_result:
+            return {"message": "Pagamento non riuscito"}, 400
+            
+        # Create ticket only if payment successful
         t = Ticket(db_config)
         t.createTicket(idPromoter, data)
 
-        return {"message": "Controlla le mail", "id": id}, 200         
+        return {"message": "Controlla le mail", "id": payment_result}, 200
+            
     except Exception as e:
-        print(e)
+        print(f"Error in createTicket: {e}")
         return {"message": f"Errore: {str(e)}"}, 500
     
 @app.route("/api/createBouncer", methods=["POST"])

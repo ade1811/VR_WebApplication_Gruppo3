@@ -1,5 +1,4 @@
-import { Description } from '@mui/icons-material';
-import React, { use, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function PrezzoView({ pacchetti, id }) {
   const [localPacchetti, setLocalPacchetti] = useState([]);
@@ -8,9 +7,7 @@ export default function PrezzoView({ pacchetti, id }) {
 
   useEffect(() => {
     setLocalPacchetti(pacchetti);
-  })
-
-  console.log('Pacchetti:', pacchetti);
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,6 +74,23 @@ export default function PrezzoView({ pacchetti, id }) {
     );
   };
 
+  const addPren = (e) => {
+    e.preventDefault();
+    const newTier = {
+      id: `tier-${Date.now()}`,
+      disabled: true,
+      title: 'Ingresso Gratuito',
+      description: 'Accesso base all\'evento',
+      price: 0
+    };
+    setTiers([...tiers, newTier]);
+    tiers.forEach(tier => {
+      if (tier.title === 'Ingresso Gratuito') {
+        tier.price = 0;
+      }
+    });
+  }
+
   return (
     <div className="mt-20 rounded-xl flex flex-col items-center bg-gray-900 p-4 pb-8">
       <h1 className="text-3xl sm:text-4xl font-extrabold my-10">
@@ -114,6 +128,7 @@ export default function PrezzoView({ pacchetti, id }) {
                   <input
                     type="text"
                     value={pkg.titolo}
+                    placeholder={pkg.title}
                     onChange={(e) =>
                       updatePackage(pkg.id, 'title', e.target.value)
                     }
@@ -124,6 +139,7 @@ export default function PrezzoView({ pacchetti, id }) {
                   Descrizione:
                   <textarea
                     value={pkg.descrizione}
+                    placeholder={pkg.description}
                     onChange={(e) => updatePackage(pkg.id, 'description', e.target.value)}
                     className="w-full bg-gray-700 text-white p-2 rounded-md"
                   />
@@ -135,9 +151,12 @@ export default function PrezzoView({ pacchetti, id }) {
                 Prezzo (€):
                 <input
                   type="number"
+                  min ={0}
+                  disabled={pkg.disabled}
+                  placeholder={pkg.price}
                   value={pkg.prezzo}
                   onChange={(e) =>updatePackage(pkg.id, 'price', Number(e.target.value))}
-                  className="w-full bg-gray-700 text-white p-2 rounded-md"
+                  className= {`w-full bg-gray-700 text-white p-2 rounded-md ${pkg.disabled ? 'cursor-not-allowed' : ''}`}
                 />
               </label>
               <button
@@ -157,6 +176,12 @@ export default function PrezzoView({ pacchetti, id }) {
           onClick={addPackage}
         >
           Aggiungi Pacchetto
+        </button>
+        <button
+          className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg"
+          onClick={addPren}
+        >
+          Aggiungi Prenotazione
         </button>
         {tiers.length > 0 && (
           <button

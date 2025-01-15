@@ -1,6 +1,7 @@
 from functions.func import MySQL_to_JSON, get_regione, get_indirizzo, send_email
 import mysql.connector as mc
 from datetime import datetime
+from decimal import Decimal
 import secrets
 import string
 import bcrypt
@@ -217,6 +218,7 @@ class Promoter():
         eventi_regione: int = 0
         partecipanti: int = 0
         data_corrente = datetime.now()
+        media_prezzo = Decimal("0")
 
         # Ottieni i generi unici dal database
         self.cursor.execute("SELECT DISTINCT genere FROM evento")
@@ -237,17 +239,23 @@ class Promoter():
             
             if get_regione(lat, lon) == regione:
                 eventi_regione += 1
-                query = """SELECT COUNT(t.ticketID) FROM ticket t 
+                query = """SELECT COUNT(t.ticketID), AVG(t.prezzo * 1.0) FROM ticket t 
                     JOIN pacchetto p ON t.pacchettoID = p.pacchettoID
                     WHERE p.eventoID = %s"""
                 self.cursor.execute(query, (id,))
-                partecipanti += self.cursor.fetchall()[0][0]
+                fetch = self.cursor.fetchall()
+                partecipanti += fetch[0][0]
+                
+                if fetch[0][1] is not None:  # Controlla che AVG non sia NULL
+                    media_prezzo += Decimal(fetch[0][1])
                 genere_valore[genere] += 1
+
+                
             
             gen = sorted(genere_valore.items(), key=lambda x:x[1], reverse=True)
             gen_labels = [item[0] for item in gen]
         
-        return eventi_regione, partecipanti, gen_labels
+        return eventi_regione, partecipanti, gen_labels, media_prezzo/eventi_regione
     
     def changeVisibility(self, eventID: int) -> tuple:
         query = "SELECT isVisible FROM evento WHERE eventoID = %s"

@@ -27,7 +27,7 @@ export default function Login({ userType }) {
 
       if (response.ok) {
         const data = await response.json();
-        //definisco var anagrafica
+        
         localStorage.setItem('tokenID', data.token);
 
         if(userType != "bouncer"){
@@ -36,7 +36,7 @@ export default function Login({ userType }) {
         localStorage.setItem("immagine", data.immagine);
       }  
         if (userType === "promoter")
-          router.push('/dashboard');
+          router.push('/promoter/dashboard');
         else if (userType === "user")  
           router.push("/home_client");
         else if (userType === "bouncer")
@@ -54,7 +54,6 @@ export default function Login({ userType }) {
   return (
     <div className="flex items-center justify-center min-h-screen bg-bg1 bg-cover bg-center">
       <div className="absolute inset-0 bg-black opacity-50"></div>
-
       <div className="relative z-10 lg:w-full lg:max-w-md sm:max-w-[350px] sm:m-3 p-8 space-y-8 bg-gray-800 shadow-2xl rounded-xl">
         <h2 className="text-2xl font-bold text-center text-gray-200">
         Accedi come {userType.charAt(0).toUpperCase() + userType.slice(1)}

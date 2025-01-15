@@ -33,7 +33,7 @@ export default function Register({userType}){
     if (response.ok) {
       {/** SALVARE TOKEN */}
       if(data.role === "promoter"){
-        router.push('/dashboard')}
+        router.push('/promoter/dashboard')}
       else{
         router.push("/home_client")
       }
@@ -51,7 +51,7 @@ export default function Register({userType}){
         <h2 className="text-2xl font-bold text-center text-gray-200">
           Registrazione {userType === 'user' ? 'Cliente' : 'Promoter'}
         </h2>
-
+        {/* FORM REGISTRAZIONE*/}
         <form className="space-y-6" method='post' onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4">
             <div>

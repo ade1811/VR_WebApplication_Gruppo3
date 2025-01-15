@@ -8,7 +8,6 @@ export default function CardDashboard({ title, amount, percentage }) {
     else
         {percentageColor = "trasparent"}
     
-
     return (
         <div className="bg-gray-800 shadow p-4 rounded-xl">
             <h2 className="text-gray-400">{title}</h2>

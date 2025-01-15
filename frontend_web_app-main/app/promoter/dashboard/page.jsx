@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { HomeIcon, TicketIcon, CalendarIcon, SupportIcon, PlusCircleIcon, MapIcon, ShoppingBagIcon} from '@heroicons/react/solid';
-import DashboardContent from "../components/dashboard_comp/DashboardContent";
+import { HomeIcon, TicketIcon, CalendarIcon, SupportIcon, PlusCircleIcon, MapIcon} from '@heroicons/react/solid';
+import DashboardContent from "@/app/components/dashboard_comp/DashboardContent";
 import Link from "next/link";
-import CreateEventPage from "../components/dashboard_comp/CreateEventPage";
-import EventList from "../components/dashboard_comp/EventList";
-import Map from "../components/dashboard_comp/Map";
-import Calendar from "../components/dashboard_comp/Calendar";
-import AiSupport from "../components/AiSupport";
+import CreateEventPage from "@/app/components/dashboard_comp/CreateEventPage";
+import EventList from "@/app/components/dashboard_comp/EventList";
+import Map from "@/app/components/dashboard_comp/Map";
+import Calendar from "@/app/components/dashboard_comp/Calendar";
+import AiSupport from "@/app/components/dashboard_comp/AiSupport";
 
 
 export default function Dashboard() {
@@ -107,7 +107,7 @@ export default function Dashboard() {
 
         <div className="flex ml-2 bottom-0">
           <img src={api + "/image/" + img} alt="User Avatar" className="w-10 h-10 rounded-full mb-2 mr-2" />
-          <Link href="/promoter_profile" className="text-white mt-1">{localStorage.getItem("anagrafica")}</Link>
+          <Link href="/profile" className="text-white mt-1">{localStorage.getItem("anagrafica")}</Link>
         </div>
       </aside>
 

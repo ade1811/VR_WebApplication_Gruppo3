@@ -13,7 +13,7 @@ export default function PricingCard({id}) {
     
     if (!token) {
       console.error('No token found');
-      router.push('/login');
+      router.push('/promoter/login');
       return;
     }
 
@@ -47,7 +47,8 @@ export default function PricingCard({id}) {
   
 
   // Aggiungere un nuovo pacchetto
-  const addTier = () => {
+  const addTier = (e) => {
+    e.preventDefault();
     const newTier = {
       id: `tier-${Date.now()}`, // ID univoco
       title: '', // Campo vuoto per il titolo
@@ -143,6 +144,7 @@ export default function PricingCard({id}) {
                 </label>
                 <input
                   type="number"
+                  min={0}
                   id={`price-${tier.id}`}
                   value={tier.price}
                   onChange={(e) => updateTier(tier.id, 'price', e.target.value)}

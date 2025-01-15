@@ -11,12 +11,6 @@ import { Badge } from '@mui/material';
 dayjs.locale('it');
 const token = localStorage.getItem('tokenID');
 
-const LoadingOverlay = () => (
-  <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center backdrop-blur-sm z-50">
-    <div className="w-16 h-16 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin"></div>
-  </div>
-);
-
 export default function StyledDateCalendar() {
   const [events, setEvents] = useState([]);
   const [dateEv, setDateEv] = useState([]);
@@ -98,12 +92,14 @@ export default function StyledDateCalendar() {
   };
 
   return (
-    isLoading ? <LoadingOverlay /> : (
-      <div className="mt-24 w-full flex flex-row bg-gray-800 rounded-xl p-6">
+    <div className="mt-24 w-full flex flex-col lg:flex-row bg-gray-800 rounded-xl p-4 lg:p-6">
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
-        <div className="p-4 bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl shadow-lg h-[350px]">
+        <div className="mx-auto w-full max-w-[320px] p-2 lg:p-4 bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl shadow-lg">
           <DateCalendar
             sx={{
+              width: '100%',
+              height: 'auto',
+              maxWidth: '320px',
               '.MuiPickersDay-root': {
                 color: '#ffffff',
                 '&.Mui-selected': {
@@ -149,29 +145,39 @@ export default function StyledDateCalendar() {
           />
         </div>
       </LocalizationProvider>
+
       <div className="divider mx-4 bg-gray-700 w-1" />
+      
       <div className="flex-1 p-4">
         <h2 className="text-xl font-semibold text-blue-400 mb-4">I tuoi eventi</h2>
-        <div className="grid grid-cols-1 gap-4 
-        overflow-y-auto max-h-[320px] scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-700">
-          {events.map((event, key) => (
-            <div
-              key={key}
-              className="bg-gray-700 rounded-xl p-4 shadow transition-transform duration-300"
-            >
-              <h3 className="text-lg font-bold text-white mb-2">{event.titolo}</h3>
-              <p className="text-sm text-gray-400 mb-1">
-                <strong>Data:</strong> {dayjs(event.data).format('DD MMMM YYYY')}
-              </p>
-              <p className="text-sm text-gray-400 mb-1">
-                <strong>Luogo:</strong> {event.luogo}
-              </p>
-              <p className="text-sm text-gray-400">{event.description}</p>
+        {isLoading ? (
+          <div className="flex justify-center items-center h-[320px]">
+            <div className="flex space-x-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
             </div>
-          ))}
-        </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 overflow-y-auto lg:max-h-[320px] scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-700">
+            {events.map((event, key) => (
+              <div
+                key={key}
+                className="bg-gray-700 rounded-xl p-4 shadow transition-transform duration-300"
+              >
+                <h3 className="text-lg font-bold text-white mb-2">{event.titolo}</h3>
+                <p className="text-sm text-gray-400 mb-1">
+                  <strong>Data:</strong> {dayjs(event.data).format('DD MMMM YYYY')}
+                </p>
+                <p className="text-sm text-gray-400 mb-1">
+                  <strong>Luogo:</strong> {event.luogo}
+                </p>
+                <p className="text-sm text-gray-400">{event.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
-    )
   );
 }
