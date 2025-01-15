@@ -142,9 +142,7 @@ export default function CreateEventPage() {
                   Inserisci i dati del tuo evento
                 </p>
               </div>
-              <p className="mx-auto mt-6 max-w-2xl text-center text-sm sm:text-lg font-medium text-gray-300">
-                Puoi scegliere un numero limitato di pacchetti fino a 5 poi c'è il plus e devi cacciare i soldi
-              </p>
+              
               <form
                 className="w-full max-w-4xl bg-gray-800 shadow-2xl rounded-3xl p-4 sm:p-8 mt-8 space-y-6 mb-5 sm:mb-2"
                 onSubmit={handleSubmit}
