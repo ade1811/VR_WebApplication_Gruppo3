@@ -5,6 +5,10 @@ import ollama
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/', methods=['GET'])
+def home():
+    return "API per il modello Llama di Ollama", 200
+
 @app.route('/<input>', methods=['GET'])
 def getRisposta(input):
     # Creazione del messaggio di input
@@ -15,7 +19,7 @@ def getRisposta(input):
     
     # Avvio della chat con il modello
     stream = ollama.chat(
-        model='llama_FastEvent',
+        model='llama_FastEvent',    #llama 3b
         messages=full_input,  # Dovrebbe essere una lista di dizionari con 'role' e 'content'
         stream=True
     )
